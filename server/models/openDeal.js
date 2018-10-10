@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
-const openDealsSchema = new Schema({
+const openDealSchema = new Schema({
   seller: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   amount: Number,
   rate: Number,
@@ -15,4 +15,5 @@ const openDealsSchema = new Schema({
 });
 
 const openDeal = mongoose.model('openDeal', openDealSchema);
+
 module.exports = openDeal;
