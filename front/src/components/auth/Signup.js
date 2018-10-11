@@ -11,6 +11,7 @@ class Signup extends Component {
       email: "",
       address: {
         country: "",
+        city: "",
         street: "",
         area_code: ""
       }
@@ -24,10 +25,11 @@ class Signup extends Component {
     const password = this.state.password;
     const email = this.state.email;
     const country = this.state.address.country;
+    const city = this.state.address.city;
     const street = this.state.address.street;
     const area_code = this.state.address.area_code;
 
-    this.service.signup(username, password, email, country, street, area_code)
+    this.service.signup(username, password, email, country, city, street, area_code)
     .then( response => {
         this.setState({
           username: "",
@@ -35,6 +37,7 @@ class Signup extends Component {
           email: "",
           address: {
             country: "",
+            city: "",
             street: "",
             area_code: ""
           }
@@ -70,15 +73,19 @@ class Signup extends Component {
           </fieldset>
           <fieldset>
             <label>Country:</label>
-            <input type="text" name="country" value={this.state.address.country} onChange={ e => this.handleChange(e)}/>
+            <input type="text" name="country" onChange={ e => this.handleChange(e)}/>
+          </fieldset>
+          <fieldset>
+            <label>City:</label>
+            <input type="text" name="city" onChange={ e => this.handleChange(e)}/>
           </fieldset>
           <fieldset>
             <label>Street:</label>
-            <input type="text" name="street" value={this.state.address.street} onChange={ e => this.handleChange(e)}/>
+            <input type="text" name="street" onChange={ e => this.handleChange(e)}/>
           </fieldset>
           <fieldset>
             <label>Area code:</label>
-            <input type="text" name="area_code" value={this.state.address.area_code} onChange={ e => this.handleChange(e)}/>
+            <input type="text" name="area_code" onChange={ e => this.handleChange(e)}/>
           </fieldset>
           
           <input type="submit" value="Sign up" />

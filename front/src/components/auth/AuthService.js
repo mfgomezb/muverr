@@ -9,8 +9,8 @@ class AuthService {
     });
   }
 
-  signup = (username, password) => {
-    return this.service.post('/signup', {username, password})
+  signup = (username, password, email, country, city, street, area_code) => {
+    return this.service.post('/signup', {username, password, email, country, city, street, area_code})
     .then(response => response.data)
   }
 
@@ -31,3 +31,4 @@ class AuthService {
 }
 
 export default AuthService;
+
