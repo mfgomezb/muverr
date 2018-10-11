@@ -24,7 +24,7 @@ const login = (req, user) => {
 // SIGNUP
 router.post('/signup', (req, res, next) => {
 
-  const {username, password, email, country, street, area_code} = req.body;
+  const {username, password, email, country, city, street, area_code} = req.body;
 
   console.log('username', username)
   console.log('password', password)
@@ -48,6 +48,7 @@ router.post('/signup', (req, res, next) => {
       email,
       address: {
         country,
+        city,
         street,
         area_code
       }

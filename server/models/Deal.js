@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
-const pendingDealSchema = new Schema({
+const dealSchema = new Schema({
+  classificacion: {type: String, enum: ["OPEN","IN PROCESS","CLOSED"]},
   seller: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   buyer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   amount: Number,
   rate: Number,
-  currency: { enum: ["USD", "EUR"] },
+  currency: { type: String, enum: ["USD", "EUR"]},
   bolivares: Number,
 }, {
   timestamps: {
@@ -15,5 +16,6 @@ const pendingDealSchema = new Schema({
   }
 });
 
-const pendingDeal = mongoose.model('pendingDeal', pendingDealSchema);
-module.exports = pendingDeal;
+const Deal = mongoose.model('Deal', dealSchema);
+
+module.exports = Deal;
