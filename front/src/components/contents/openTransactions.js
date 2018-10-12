@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ComponentService from '../ComponentService'
+import ComponentService from '../contents/ComponentService'
 
-class openTransactions extends Component {
+class OpenTransactions extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -53,5 +53,5 @@ render() {
   }
 }
 
-export default openTransactions; 
+export default OpenTransactions; 
 

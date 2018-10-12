@@ -9,7 +9,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
 import SendMoney from './components/contents/sendmoney/SendMoney';
-import OpenTransactions from './components/contents/transactions/openTransactions';
+import OpenTransactions from './components/contents/openTransactions';
 
 class App extends Component {
 
@@ -66,7 +66,7 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
-            <Route exact path='/send-money' render={() => <SendMoney/>}/>
+            <Route exact path='/send-money' render={() => <SendMoney userInSession={this.state.loggedInUser}/>}/>
             <Route exact path='/open-transactions' render={() => <OpenTransactions getTransactions={this.getTransactions}/>}/>
           </header>
         </div>

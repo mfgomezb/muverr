@@ -60,7 +60,7 @@ function createDeal(id){
         rate = Math.floor(Math.random()*10+5)
         bolivares = rate*amount;
         deal = {
-            classificacion: "OPEN",
+            classification: "OPEN",
             seller: id,
             amount: amount,
             rate: rate,
@@ -92,7 +92,7 @@ User.find({}).then( users => {
         rate = Math.floor(Math.random()*10+5)
         bolivares = rate*amount;
         deal = {
-            classificacion: "OPEN",
+            classification: "OPEN",
             seller: e,
             amount: amount,
             rate: rate,
