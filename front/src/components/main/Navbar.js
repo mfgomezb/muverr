@@ -25,8 +25,8 @@ class Navbar extends Component {
         <nav className="nav-style">
           <ul>
             <li><a onClick={e => this.handleLogout(e)}>Logout</a></li>
-            <li><Link to='/open-transactions'>Open Transactions</Link></li>
-            <li><Link to='/send-money'>Send Money</Link></li>
+            <li><Link to='/transactions'>Transactions</Link></li>
+            <li><Link to='/sendmoney'>Send Money</Link></li>
             <li><Link to='/profile'>Profile</Link></li>
           </ul>
 

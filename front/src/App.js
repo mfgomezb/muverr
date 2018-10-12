@@ -3,13 +3,13 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom';
 
 // import ProjectList from './components/projects/ProjectList';
-import Navbar from './components/navbar/Navbar';
+import Navbar from './components/main/Navbar';
+import Home from './components/main/Home';
 // import ProjectDetails from './components/projects/ProjectDetails';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
-import SendMoney from './components/contents/sendmoney/SendMoney';
-import OpenTransactions from './components/contents/openTransactions';
+import Transactions from './components/transactions/Transactions';
 
 class App extends Component {
 
@@ -17,7 +17,6 @@ class App extends Component {
     super(props)
     this.state = { 
       loggedInUser: null,
-      transactions: "",
      };
     this.service = new AuthService();
   
@@ -66,8 +65,9 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
-            <Route exact path='/send-money' render={() => <SendMoney userInSession={this.state.loggedInUser}/>}/>
-            <Route exact path='/open-transactions' render={() => <OpenTransactions getTransactions={this.getTransactions}/>}/>
+            <Home userInSession={this.state.loggedInUser} logout={this.logout} />
+            <Route exact path='/transactions' render={() => <Transactions userInSession={this.state.loggedInUser}/>}/>
+            {/* <Route exact path='/open-transactions' render={() => <OpenTransactions getTransactions={this.getTransactions}/>}/> */}
           </header>
         </div>
       );
