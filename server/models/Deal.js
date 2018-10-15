@@ -7,8 +7,12 @@ const dealSchema = new Schema({
   buyer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   amount: Number,
   rate: Number,
-  currency: { type: String, enum: ["USD", "EUR"]},
+  currency: { type: String, enum: ["USD", "EUR"], default:"EUR"},
   bolivares: Number,
+  beneficiaryName: String,
+  beneficiaryBank: Number,
+  beneficiaryNationalId: Number,
+  beneficiaryBankAccount: Number
 }, {
   timestamps: {
     createdAt: 'created_at',

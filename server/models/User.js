@@ -6,14 +6,13 @@ const userSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  address: {
-    country: String,
-    city: String,
-    street: String,
-    area_code: Number
-  },
-  operation: {
-  }
+  country: String,
+  city: String,
+  street: String,
+  area_code: Number,
+  operations: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Deal'}
+  ]
 }, {
   timestamps: {
     createdAt: 'created_at',

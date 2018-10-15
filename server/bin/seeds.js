@@ -41,12 +41,11 @@ for (let i = 0; i < usersAmount ; i++) {
         name: name,
         password: hashPass,
         email: "pepe@pepe.com",
-        address: {
-          country: "España",
-          city: "Madrid",
-          street: "Paseo de la Chopera",
-          area_code: "28000"
-        },
+        country: "España",
+        city: "Madrid",
+        street: "Paseo de la Chopera",
+        area_code: "28000"
+
     }
     usersToAdd.push(user)
 }
@@ -77,6 +76,7 @@ function createDeal(id){
 
 
 // User.collection.drop();
+// Deal.collection.drop();
 
 // User.create(
 //     usersToAdd

@@ -46,12 +46,10 @@ router.post('/signup', (req, res, next) => {
       username,
       password: hashPass,
       email,
-      address: {
-        country,
-        city,
-        street,
-        area_code
-      }
+      country,
+      city,
+      street,
+      area_code
       
     }).save();
   })
