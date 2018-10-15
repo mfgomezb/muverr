@@ -9,13 +9,11 @@ class Signup extends Component {
       username: "",
       password: "",
       email: "",
-      address: {
-        country: "",
-        city: "",
-        street: "",
-        area_code: ""
+      country: "",
+      city: "",
+      street: "",
+      area_code: ""
       }
-    };
     this.service = new AuthService();
   }
     
@@ -24,10 +22,10 @@ class Signup extends Component {
     const username = this.state.username;
     const password = this.state.password;
     const email = this.state.email;
-    const country = this.state.address.country;
-    const city = this.state.address.city;
-    const street = this.state.address.street;
-    const area_code = this.state.address.area_code;
+    const country = this.state.country;
+    const city = this.state.city;
+    const street = this.state.street;
+    const area_code = this.state.area_code;
 
     this.service.signup(username, password, email, country, city, street, area_code)
     .then( response => {
@@ -35,12 +33,11 @@ class Signup extends Component {
           username: "",
           password: "",
           email: "",
-          address: {
-            country: "",
-            city: "",
-            street: "",
-            area_code: ""
-          }
+          country: "",
+          city: "",
+          street: "",
+          area_code: ""
+
         });
         this.props.getUser(response.user)
     })

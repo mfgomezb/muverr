@@ -5,11 +5,15 @@ import { Switch, Route } from 'react-router-dom';
 // import ProjectList from './components/projects/ProjectList';
 import Navbar from './components/main/Navbar';
 import Home from './components/main/Home';
+import Profile from './components/main/Profile';
+import EditProfile from './components/main/EditProfile';
 // import ProjectDetails from './components/projects/ProjectDetails';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import AuthService from './components/auth/AuthService';
 import Transactions from './components/transactions/Transactions';
+import TransactionDetails from './components/transactions/TransactionDetails';
+import CreateTransaction from './components/transactions/CreateTransaction';
 
 class App extends Component {
 
@@ -25,12 +29,6 @@ class App extends Component {
   getTheUser = (userObj) => {
     this.setState({
       loggedInUser: userObj
-    })
-  }
-
-  getTransactions = (transactionsObj) => {
-    this.setState({
-      transactions: transactionsObj
     })
   }
 
@@ -57,6 +55,8 @@ class App extends Component {
     }
   }
 
+  
+
   render() {
     this.fetchUser()
 
@@ -65,8 +65,12 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Navbar userInSession={this.state.loggedInUser} logout={this.logout} />
-            <Home userInSession={this.state.loggedInUser} logout={this.logout} />
+            <Route exact path='/' logout={this.logout} render={() => <Home userInSession={this.state.loggedInUser}/>} />
+            <Route exact path='/Profile' logout={this.logout} render={() => <Profile userInSession={this.state.loggedInUser}/>} />
+            <Route exact path='/user/edit' logout={this.logout} render={() => <EditProfile userInSession={this.state.loggedInUser}/>} />
             <Route exact path='/transactions' render={() => <Transactions userInSession={this.state.loggedInUser}/>}/>
+            <Route exact path='/sendmoney' render={() => <CreateTransaction userInSession={this.state.loggedInUser}/>}/>
+            <Route path="/transaction/:transactionId" component={TransactionDetails} userInSession={this.state.loggedInUser}/>
             {/* <Route exact path='/open-transactions' render={() => <OpenTransactions getTransactions={this.getTransactions}/>}/> */}
           </header>
         </div>
