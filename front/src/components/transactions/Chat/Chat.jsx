@@ -20,6 +20,10 @@ export class Chat extends React.Component{
         this.socket = io('localhost:3010' ); //  + this.match.params.transactionId
 
         this.socket.emit('subscribe', this.room)
+        
+        this.socket.on('output', (data) => {
+            this.setState({messages: data.conversation})
+        });
 
         this.socket.on('conversation private post', (msg)=> {
             console.log(msg)
@@ -30,7 +34,10 @@ export class Chat extends React.Component{
     receiveMessage(msg){
         this.setState({
             input:'',
-            messages: [...this.state.messages, {msg,type:"server"}]
+            messages: [...this.state.messages, {message: msg, 
+                room: this.room,
+                timestamp:Date.now(),
+                userId: this.props.userInSession._id}]
         })
     }
 
@@ -38,15 +45,18 @@ export class Chat extends React.Component{
         let msg = this.state.input;
         this.setState({
             input:'',
-            messages: [...this.state.messages, {msg,type:"me"}]
+            messages: [...this.state.messages, {message: msg, 
+                room: this.room,
+                timestamp:Date.now(),
+                userId: this.props.userInSession._id}]
+            
         });
-        // this.socker.emit('sub')
         this.socket.emit('send message',{message: msg, 
             room: this.room,
             timestamp:Date.now(),
-            user: this.props.userInSession._id
+            userId: this.props.userInSession._id
         })
-
+        console.log(this.state.messages)
         
     }
     
@@ -55,7 +65,7 @@ export class Chat extends React.Component{
         return (
             <div style={{border:'1px solid green', padding:'10px'}} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}>
                 <div className="messages">
-                    {messages.map( (e,i) => <div className={"msg "+e.type} key={i}><div className="wrap">{e.msg}</div></div>)}
+                    {messages.map( (e,i) => <div className={"msg me"} key={i}><div className="wrap">{e.message}</div></div>)}
                 </div>
                 <input value={input} onChange={e => this.setState({input:e.currentTarget.value})}/>
             </div>
