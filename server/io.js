@@ -26,7 +26,9 @@ module.exports = (io) => {
                 ).then(console.log)
 
             socket.broadcast.emit('conversation private post', {
-                message: data.message
+                message: data.message,
+                room: data.room,
+                userId: data.userId
             });
         })
     });

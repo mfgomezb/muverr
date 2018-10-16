@@ -1,12 +1,18 @@
 
+.chat-window{
+    width: 30%;
+}
+
 .msg{
     padding: 5px;
     margin:5px;
     display:block;
 }
+
 .msg.me{
     text-align: right;
 }
+
 .msg.server{
     text-align: left;
 }
@@ -20,6 +26,7 @@
     background:grey;
     color:white;
 }
+
 
 .msg .wrap{
     display: inline-block;

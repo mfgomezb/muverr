@@ -1,6 +1,9 @@
 import React from 'react';
 import io from 'socket.io-client';
 import './chat.css';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+
 
 
 export class Chat extends React.Component{
@@ -9,14 +12,21 @@ export class Chat extends React.Component{
         super(props)
         this.state = {
             messages:[],
-            input:''
+            input:'',
+            color: 'default',
+            onDelete: 'none',
+            avatar: 'icon',
+            icon: 'none',
+            variant: 'default',
         }
         this.match = props.match
         this.props = props
         this.room = this.match.params.transactionId
+        
     }
 
     componentDidMount(){
+
         this.socket = io('localhost:3010' ); //  + this.match.params.transactionId
 
         this.socket.emit('subscribe', this.room)
@@ -27,46 +37,58 @@ export class Chat extends React.Component{
 
         this.socket.on('conversation private post', (msg)=> {
             console.log(msg)
-            this.receiveMessage(msg.message);
+            this.receiveMessage(msg);
         });
+
     }
 
     receiveMessage(msg){
         this.setState({
             input:'',
-            messages: [...this.state.messages, {message: msg, 
-                room: this.room,
-                timestamp:Date.now(),
-                userId: this.props.userInSession._id}]
+            messages: [...this.state.messages, msg]
         })
     }
 
     submitChat(){
         let msg = this.state.input;
+
         this.setState({
             input:'',
-            messages: [...this.state.messages, {message: msg, 
+            messages: [...this.state.messages, {
+                message: msg, 
                 room: this.room,
                 timestamp:Date.now(),
                 userId: this.props.userInSession._id}]
-            
         });
-        this.socket.emit('send message',{message: msg, 
+        console.log(this.state.messages)
+
+        this.socket.emit('send message',{
+            message: msg, 
             room: this.room,
             timestamp:Date.now(),
             userId: this.props.userInSession._id
-        })
-        console.log(this.state.messages)
-        
+        })        
     }
     
     render(){
         let {messages, input} = this.state;
         return (
-            <div style={{border:'1px solid green', padding:'10px'}} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}>
-                <div className="messages">
-                    {messages.map( (e,i) => <div className={"msg me"} key={i}><div className="wrap">{e.message}</div></div>)}
+
+            <div className="chat-window" style={{border:'1px solid green', padding:'10px'}} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}>
+                <div className="msg">
+                    {messages.map( (e,i) => 
+                    <div className={(e.userId === this.props.userInSession._id) ? "msg me" : "msg server"} key={i}>
+                        <Chip
+                        label={e.message}
+                        color={(e.userId === this.props.userInSession._id) ? "primary" : "default"}
+                        avatar={this.state.avatarToPlayground}
+                        icon={this.state.iconToPlayground}
+                        variant={this.state.variant}
+                        />
+                    </div> 
+                    )}
                 </div>
+                
                 <input value={input} onChange={e => this.setState({input:e.currentTarget.value})}/>
             </div>
             )
