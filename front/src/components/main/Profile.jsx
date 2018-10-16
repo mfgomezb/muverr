@@ -64,6 +64,7 @@
 
 import React, {Component} from 'react'
 import UserService from '../UserService'
+import ComponentService from '../TransactionService'
 import {Link} from 'react-router-dom'
 import _ from 'lodash'
 import Card from '@material-ui/core/Card';
@@ -73,6 +74,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {Redirect} from 'react-router-dom'
 
 const styles = {
   card: {
@@ -100,6 +102,7 @@ class Profile extends Component {
             user: null
         };
         this.service = new UserService()
+        this.transactionService = new ComponentService()
       }
 
       getUser = id => {
@@ -113,41 +116,118 @@ class Profile extends Component {
         return this.getUser(this.props.userInSession._id);
       };
 
+      componentWillReceiveProps = () => {
+        return this.getUser(this.props.yserInSession_.id);
+      };
+
+      cancelBuyOrder = (buyerId, operId) => {
+        this.transactionService.cancelBuyOrder({buyerId, operId})
+        .then( () => {
+          this.getUser(this.props.userInSession._id);
+        })
+        .catch( error => console.log(error) )
+      }
+
+      cancelSellOrder = (sellerId, operId) => {
+        this.transactionService.cancelSellOrder({sellerId, operId})
+        .then( () => {
+          this.getUser(this.props.userInSession._id);
+        })
+        .catch( error => console.log(error) )
+      }
+
+      paymentRedirect = (id) => {
+        console.log(id)
+        return <Redirect to={`/payment/+${id}`}/>
+      }
+    
+
     render() {
         let {...details} = this.state.user
         const {classes} = this.props
         let operation = details.operations
-        console.log(operation)
+
+      if (this.state.user == null) {
+        this.getUser(this.props.userInSession._id)
+      }
+
+      
+      const cardHolder = (e, oper) => {
+        let a = ''
+        if (oper === 'buy') {
+          a = 'buy'
+        } else {
+          a = 'sell'
+        }
+        let id = e._id
+        return (
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+                {a}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                Seller: {e.seller.name}
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                Rating: ...
+              </Typography>
+              <Typography component="p">
+                Amount: {e.amount}
+              </Typography>
+              <Typography component="p">
+                Rate: {e.rate}
+              </Typography>
+              <Typography component="p">
+                Bolivares: {e.bolivares}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              {(a === 'buy') ? <Button size="medium"><Link to={"/payment/" + id}> Pay </Link></Button> : null}
+              {(a === 'sell') ? <Button size="medium" onClick={(e) => this.cancelSellOrder(this.props.userInSession._id, id)}>Cancel Sell</Button> : null}
+              {(e.classification !== "OPEN") ? <Button size="medium"><Link to={"/transactionChat/" + id}> Chat </Link></Button> : null}
+              {(a === 'buy') ? <Button size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, id)}>Cancel</Button> : null}
+            </CardActions>
+          </Card>
+        )
+      }
+
       return (
         <div>
-              
-        
-           { operation ? operation.map((e, i) => <li key={i}>{e.classification}</li>) : <p>Loading...</p>}
-              
-              //   if(operation.hasOwnProperty(key))
-              //   {
-              //     return (
-              //       <Card className={classes.card}>
-              //       <CardContent>
-              //         <Typography className={classes.title} color="textSecondary" gutterBottom>
-              //         </Typography>
-              //       </CardContent> 
-              //       <CardActions>
-              //         <Button size="medium" onClick={(e) => this.changeStatusToInProcess(e) }>Buy</Button>
-              //       </CardActions>
-              //     </Card>
-              //     )
-              //   }})
-              // }
-            // <div>Name: {details.name}</div>
-            // <div>Username: {details.username}</div>
-            // <div>Email: {details.email}</div>
-            // <div>Address: {details.country}</div>
-            // <div>Join date: {(new Date(details.created_at)).toDateString()}</div>
-            
-            // <Link to={"/user/edit/"}>Edit</Link>
-          
-          }
+          <div>
+          <Card className={classes.card}>
+            <CardContent>
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {details.name}
+              </Typography>
+              <Typography variant="h5" component="h2">
+              {details.username}
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+              {details.email}
+              </Typography>
+              <Typography component="p">
+              {details.country}
+              </Typography>
+              <Typography component="p">
+              {(new Date(details.created_at)).toDateString()}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button><Link to={"/user/edit/"}>Edit</Link></Button>
+            </CardActions>
+          </Card>
+          </div>      
+          <div>
+           { operation ? operation.map((e, i) => { 
+                    if (e.seller._id === this.props.userInSession._id) {
+                      return cardHolder(e, 'sell')
+                    } else {
+                      return cardHolder(e, 'buy')
+                    }
+                    }) : <p>Loading...</p> 
+                    }
+          </div>  
         </div>
       )
     }

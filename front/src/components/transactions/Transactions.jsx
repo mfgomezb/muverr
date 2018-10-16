@@ -170,16 +170,19 @@ const styles = theme => ({
 
 
 class Transactions extends React.Component {
-  state = {
-    order: 'desc',
-    orderBy: 'rate',
-    selected: [],
-    data: [
-    ],
-    page: 0,
-    rowsPerPage: 10,
-  };
-  service = new TransactionService()
+  constructor(){
+    super();
+    this.state = {
+      order: 'desc',
+      orderBy: 'rate',
+      selected: [],
+      data: [
+      ],
+      page: 0,
+      rowsPerPage: 10,
+    };
+    this.service = new TransactionService()
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;

@@ -25,14 +25,14 @@ const styles = {
 };
 
 class TransactionDetails extends Component {
-  constructor({ match }) {
+  constructor(props) {
     super();
     this.state = {
       redirectToProfile: false,
-      loggedInUser: null,
       transaction: {}
     };
-    this.match = match;
+    this.match = props.match;
+    this.props = props;
     this.service = new ComponentService();
     this.AuthService = new AuthService();
     this.UserService = new UserService();
@@ -52,13 +52,12 @@ class TransactionDetails extends Component {
 
   componentDidMount = () => {
     return this.getTransaction(this.match.params.transactionId);
-
   };
 
   changeStatusToInProcess = () => {
     const id = this.state.transaction._id
     const operations = this.state.transaction._id
-    const buyer = this.state.loggedInUser._id
+    const buyer = this.props.userInSession._id
     const classification = "IN PROCESS"
     this.service.editTransaction(id, {buyer, classification})
     .then( () => {
@@ -70,27 +69,10 @@ class TransactionDetails extends Component {
     .catch( error => console.log(error) )
   }
 
-  fetchUser(){
-    if( this.state.loggedInUser === null ){
-      this.AuthService.loggedin()
-      .then(response =>{
-        this.setState({
-          loggedInUser:  response
-        }) 
-      })
-      .catch( err =>{
-        this.setState({
-          loggedInUser:  false
-        }) 
-      })
-    }
-  }
-
 
   render() {
 
-    this.fetchUser()
-
+    console.log(this.props)
     const {classes} = this.props
     if (this.state.transaction._id) {
       const {...details} = this.state.transaction;

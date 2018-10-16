@@ -1,4 +1,4 @@
-// auth/auth-service.js
+
 import axios from 'axios';
 
 class ComponentService {
@@ -35,9 +35,17 @@ class ComponentService {
   }
 
   editTransaction = (id, {buyer , classification}) => {
-    console.log(buyer , "buyer")
-    console.log(classification , "classifciation")
     return this.service.patch(`/transaction/${id}`, { buyer, classification })
+      .then(response => response.data)
+  }
+
+  cancelBuyOrder = ({buyerId, operId}) => {
+    return this.service.patch(`/cancelbuyorder/`, {buyerId, operId})
+      .then(response => response.data)
+  }
+
+  cancelSellOrder = ({sellerId, operId}) => {
+    return this.service.patch(`/cancelsellorder/`, {sellerId, operId})
       .then(response => response.data)
   }
 

@@ -37,7 +37,7 @@ const styles = theme => ({
     
 
 
-class CreateTransaction extends Component {
+class Payment extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -55,12 +55,9 @@ class CreateTransaction extends Component {
         this.service = new ComponentService()
     }
 
-    handleFormSubmit = (event) => {
-        console.log("event submit")
-        
+    handleFormSubmit = (event) => {        
         let {...details} = this.state.deal
         event.preventDefault();
-        
     
         const seller = this.props.userInSession._id
         const amount = parseInt(details.amount)
@@ -71,8 +68,7 @@ class CreateTransaction extends Component {
         const beneficiaryBank = parseInt(details.beneficiaryBank)
         const beneficiaryNationalId = parseInt(details.beneficiaryNationalId)
         const beneficiaryBankAccount = parseInt(details.beneficiaryBankAccount)
- 
-    
+
         this.service.createTransaction(
             seller, 
             amount,
@@ -84,9 +80,6 @@ class CreateTransaction extends Component {
             beneficiaryNationalId,
             beneficiaryBankAccount
             )
-        .then( response => {
-            console.log("Create", response)
-        })
         .then( () => {
             this.setState({redirectToProfile: true})
         })
@@ -139,9 +132,9 @@ class CreateTransaction extends Component {
     }
   }
 
-CreateTransaction.propTypes = {
+Payment.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
 
- export default withStyles(styles)(CreateTransaction);
+ export default withStyles(styles)(Payment);
