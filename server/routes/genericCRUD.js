@@ -42,8 +42,12 @@ const simpleCrud = (Model, extensionFn) => {
 
     router.get('/profile/:id', (req, res, next) => {
         const {id} = req.params
-        Model.find({_id: id}).populate({path: 'operations', populate: { path: 'seller', select:{'_id': 0,'name': 1} , model: 'User'}})
+        User.find({_id: id})
+        .populate("operations")
+        .populate({path: 'operations', populate: {path: 'buyer'}, model: 'Deal'})
+        .populate({path: 'operations', populate: {path: 'seller'}, model: 'Deal'})
         .then( obj => {
+            console.log(obj.operations);
             res.status(200).json(obj)})
         .catch(e => next(e))
     });
@@ -77,12 +81,51 @@ const simpleCrud = (Model, extensionFn) => {
         const {buyer} = req.params;
         Model.findByIdAndUpdate(buyer,
             {$push: {operations: req.body.operations}},
-            {safe: true, upsert: true})
-            .then( obj => {
-                res.status(200).json({status:'updated',obj});
+            {safe: true, upsert: true, new: true})
+            .then( () => { 
+                Deal.findByIdAndUpdate(req.body.operations,
+                {$set: {buyer: req.params.buyer}},
+                {new: true}  
+                ).then((deal) => res.json({deal}))
             })
             .catch(e => next(e))
+
     });
+
+
+    // Cancel Buy Operation
+
+
+    router.patch('/cancelbuyorder/',(req,res,next) => {
+        const buyerId = req.body.buyerId
+        const operationId = req.body.operId
+        Deal.findByIdAndUpdate(operationId,
+            {buyer: null, classification: "OPEN"},
+            {new: true})
+        .then( () => { 
+
+            return User.findByIdAndUpdate(buyerId, {$pull:{operations:operationId}}, {new:true})
+            
+        })
+        .then((response) => {res.json(response)})
+        .catch(e =>{console.log(e); next(e)})
+    });
+
+    // calcel sell order
+
+    router.patch('/cancelsellorder/',(req,res,next) => {
+        const sellerId = req.body.buyerId
+        const operationId = req.body.operId
+        Deal.deleteOne({ _id: operationId })
+        .then( () => { 
+            return User.findByIdAndUpdate(sellerId, {$pull:{operations:operationId}}, {new:true})
+        })
+        .then((response) => {res.json(response)})
+        .catch(e =>{console.log(e); next(e)})
+    });
+
+    // patch
+
 
     router.patch('/:id',(req,res,next) => {
         const {id} = req.params;

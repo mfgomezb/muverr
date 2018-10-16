@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const dealSchema = new Schema({
-  classification: {type: String, enum: ["OPEN","IN PROCESS","CLOSED"], default:"OPEN"},
+  classification: {type: String, enum: ["OPEN","IN PROCESS", "PAID", "CONFIRMED" ,"CLOSED"], default:"OPEN"},
   seller: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   buyer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   amount: Number,

@@ -78,10 +78,10 @@ function createDeal(id){
 // User.collection.drop();
 // Deal.collection.drop();
 
-// User.create(
-//     usersToAdd
-//     )
-
+User.create(
+    usersToAdd
+    )
+.then( () => {
 User.find({}).then( users => {
     return usersId = users.map( e => { return e._id })
 }).then( usersId => {
@@ -102,6 +102,7 @@ User.find({}).then( users => {
         Deal.create(deal)
         }
     })
+})
 })
 
 // al abrir el plazo de join hay que agregar los usuarios a la base de datos
