@@ -11,13 +11,19 @@ export class Chat extends React.Component{
             messages:[],
             input:''
         }
+        this.match = props.match
+        this.props = props
+        this.room = this.match.params.transactionId
     }
 
     componentDidMount(){
-        this.socket = io('localhost:3000');
+        this.socket = io('localhost:3010' ); //  + this.match.params.transactionId
 
-        this.socket.on('message', (msg)=> {
-            this.receiveMessage(msg.msg);
+        this.socket.emit('subscribe', this.room)
+
+        this.socket.on('conversation private post', (msg)=> {
+            console.log(msg)
+            this.receiveMessage(msg.message);
         });
     }
 
@@ -34,7 +40,14 @@ export class Chat extends React.Component{
             input:'',
             messages: [...this.state.messages, {msg,type:"me"}]
         });
-        this.socket.emit('message',{msg, timestamp:Date.now()})
+        // this.socker.emit('sub')
+        this.socket.emit('send message',{message: msg, 
+            room: this.room,
+            timestamp:Date.now(),
+            user: this.props.userInSession._id
+        })
+
+        
     }
     
     render(){
