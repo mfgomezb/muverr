@@ -61,6 +61,21 @@ const simpleCrud = (Model, extensionFn) => {
             .catch(e => next(e))
     })
 
+    router.post("/charge", async (req, res) => {
+        try {
+          let {status} = await stripe.charges.create({
+            amount: 2000,
+            currency: "usd",
+            description: "An example charge",
+            source: req.body
+          });
+      
+          res.json({status});
+        } catch (err) {
+          res.status(500).end();
+        }
+      });
+
     router.post('/createtransaction/',(req,res,next) => {
         let object = _.pickBy(req.body, (e,k) => paths.includes(k));
         d = new Deal({...object})
@@ -149,6 +164,33 @@ const simpleCrud = (Model, extensionFn) => {
             })
             .catch(e => next(e))
     })
+
+    router.patch('/transactionpaid/:id',(req,res,next) => {
+        console.log(req.body)
+        const {id} = req.params;
+        const object = _.pickBy(req.body, (e,k) => paths.includes(k));
+        const updates = _.pickBy(object, _.identity);
+        Model.findByIdAndUpdate(id, updates ,{new:true})
+            .then( obj => {
+                res.status(200).json({status:'updated',obj});
+            })
+            .catch(e => next(e))
+    })
+
+
+    router.patch('/transactionconfirmed/:id',(req,res,next) => {
+        console.log(req.body)
+        const {id} = req.params;
+        const object = _.pickBy(req.body, (e,k) => paths.includes(k));
+        const updates = _.pickBy(object, _.identity);
+        Model.findByIdAndUpdate(id, updates ,{new:true})
+            .then( obj => {
+                res.status(200).json({status:'updated',obj});
+            })
+            .catch(e => next(e))
+    })
+
+    
     
     // CRUD: DELETE
     router.delete('/:id',(req,res,next) => {

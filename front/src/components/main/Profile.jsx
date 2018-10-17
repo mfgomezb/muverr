@@ -1,72 +1,7 @@
-// import React from 'react';
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
-// import AppBar from '@material-ui/core/AppBar';
-// import Tabs from '@material-ui/core/Tabs';
-// import Tab from '@material-ui/core/Tab';
-// import Typography from '@material-ui/core/Typography';
-
-// function TabContainer(props) {
-//   return (
-//     <Typography component="div" style={{ padding: 8 * 3 }}>
-//       {props.children}
-//     </Typography>
-//   );
-// }
-
-// TabContainer.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
-
-// const styles = theme => ({
-//   root: {
-//     flexGrow: 1,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-// });
-
-// class SimpleTabs extends React.Component {
-//   state = {
-//     value: 0,
-//   };
-
-//   handleChange = (event, value) => {
-//     this.setState({ value });
-//   };
-
-//   render() {
-//     const { classes } = this.props;
-//     const { value } = this.state;
-
-//     return (
-//       <div className={classes.root}>
-//         <AppBar position="static">
-//           <Tabs value={value} onChange={this.handleChange}>
-//             <Tab label="Item One" />
-//             <Tab label="Item Two" />
-//             <Tab label="Item Three" href="#basic-tabs" />
-//           </Tabs>
-//         </AppBar>
-//         {value === 0 && <TabContainer>Item One</TabContainer>}
-//         {value === 1 && <TabContainer>Item Two</TabContainer>}
-//         {value === 2 && <TabContainer>Item Three</TabContainer>}
-//       </div>
-//     );
-//   }
-// }
-
-// SimpleTabs.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
-// export default withStyles(styles)(SimpleTabs);
-
-
 import React, {Component} from 'react'
 import UserService from '../UserService'
 import ComponentService from '../TransactionService'
 import {Link} from 'react-router-dom'
-import _ from 'lodash'
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -92,7 +27,6 @@ const styles = {
     marginBottom: 12,
   },
 };
-
 
 
 class Profile extends Component {
@@ -138,7 +72,16 @@ class Profile extends Component {
 
       paymentRedirect = (id) => {
         console.log(id)
-        return <Redirect to={`/payment/+${id}`}/>
+        return <Redirect to={`/checkout/+${id}`}/>
+      }
+
+      confirmPayment = (id) => {
+        const classification = "CONFIRMED"
+        this.transactionService.confirmTransaction(id, {classification})
+        .then( () => {
+          this.getUser(this.props.userInSession._id);
+        })
+        .catch( error => console.log(error) )
       }
     
 
@@ -160,6 +103,7 @@ class Profile extends Component {
           a = 'sell'
         }
         let id = e._id
+
         return (
           <Card className={classes.card}>
             <CardContent>
@@ -183,10 +127,12 @@ class Profile extends Component {
               </Typography>
             </CardContent>
             <CardActions>
-              {(a === 'buy') ? <Button size="medium"><Link to={"/payment/" + id}> Pay </Link></Button> : null}
-              {(a === 'sell') ? <Button size="medium" onClick={(e) => this.cancelSellOrder(this.props.userInSession._id, id)}>Cancel Sell</Button> : null}
               {(e.classification !== "OPEN") ? <Button size="medium"><Link to={"/transactionChat/" + id}> Chat </Link></Button> : null}
-              {(a === 'buy') ? <Button size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, id)}>Cancel</Button> : null}
+              {(a === 'buy' && e.classification === 'IN PROCESS') ? <Button size="medium"><Link to={"/checkout/" + id}> Pay </Link></Button> : null}
+              {((a === 'sell' || a === 'buy') && e.classification === 'IN PROCESS') ? <Button size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, id)}>Cancel Order</Button> : null}
+              {(a === 'buy' && e.classification === 'PAID' ) ? <Button size="medium">Waiting for confirmation</Button> : null}
+              {(a === 'sell' && e.classification === 'PAID') ? <Button size="medium" onClick={(e) => this.confirmPayment(id)}>Confirm Payment</Button> : null}
+              {((a === 'sell' || a === 'buy') && e.classification === 'CONFIRMED') ?  <Button size="medium" onClick={(e) => this.ratePayment(e)}> Rate </Button> : null}
             </CardActions>
           </Card>
         )

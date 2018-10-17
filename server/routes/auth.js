@@ -3,7 +3,7 @@ const router  = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const passport = require('passport');
-
+const stripe = require("stripe")("sk_test_seNXKK0gMYPsVeGFx0FQU6Jb");
 
 const login = (req, user) => {
   return new Promise((resolve,reject) => {
@@ -19,6 +19,7 @@ const login = (req, user) => {
     })
   })
 }
+
 
 
 // SIGNUP
@@ -91,5 +92,20 @@ router.get('/logout', (req,res) => {
 router.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 })
+
+router.post('/charge', async (req, res) => {
+  console.log(req.body)
+  try {
+    let {status} = await stripe.charges.create({
+      amount: 2000,
+      currency: "usd",
+      description: "An example charge",
+      source: req.body
+    });
+    res.status(200).json({status});
+  } catch (err) {
+    res.status(500).end();
+  }
+});
 
 module.exports = router;

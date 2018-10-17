@@ -39,6 +39,19 @@ class ComponentService {
       .then(response => response.data)
   }
 
+  payTransaction = (id, {classification}) => {
+    console.log(classification)
+    return this.service.patch(`/transactionpaid/${id}`, {classification})
+      .then(response => response.data)
+  }
+
+  confirmTransaction = (id, {classification}) => {
+    console.log(classification)
+    return this.service.patch(`/transactionconfirmed/${id}`, {classification})
+      .then(response => response.data)
+  }
+
+
   cancelBuyOrder = ({buyerId, operId}) => {
     return this.service.patch(`/cancelbuyorder/`, {buyerId, operId})
       .then(response => response.data)

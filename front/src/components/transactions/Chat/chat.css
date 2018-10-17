@@ -1,6 +1,11 @@
 
 .chat-window{
-    width: 30%;
+    max-height: 600px;
+    overflow: auto;
+    width: 100%
+}
+.chat-holder{
+    width: 30%
 }
 
 .msg{

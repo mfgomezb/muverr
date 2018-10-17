@@ -14,7 +14,7 @@ import AuthService from './components/auth/AuthService';
 import Transactions from './components/transactions/Transactions';
 import TransactionDetails from './components/transactions/TransactionDetails';
 import CreateTransaction from './components/transactions/CreateTransaction';
-import Payment from './components/transactions/Payment';
+import Checkout from './components/transactions/Checkout';
 import {Chat} from './components/transactions/Chat';
 
 class App extends Component {
@@ -73,7 +73,7 @@ class App extends Component {
             <Route exact path='/transactions' render={() => <Transactions userInSession={this.state.loggedInUser}/>}/>
             <Route exact path='/sendmoney' render={() => <CreateTransaction userInSession={this.state.loggedInUser}/>}/>
             <Route path="/transaction/:transactionId" component={({match}) => <TransactionDetails match={match} userInSession={this.state.loggedInUser}/>} />
-            <Route path="/payment/:transactionId" component={({match}) => <Payment match={match} userInSession={this.state.loggedInUser}/>} />
+            <Route path="/checkout/:transactionId" component={({match}) => <Checkout match={match} userInSession={this.state.loggedInUser}/>} />
             <Route path="/transactionChat/:transactionId" component={({match}) => <Chat match={match} userInSession={this.state.loggedInUser}/>} />
           </header>
         </div>

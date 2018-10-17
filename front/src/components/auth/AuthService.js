@@ -28,7 +28,18 @@ class AuthService {
     return this.service.get('/logout',)
     .then(response => response.data)
   }
+
+  payment = (token) => {
+    console.log(token)
+    return fetch('http://localhost:3010/api/auth/charge', {
+      method: "POST",
+      headers: {"Content-Type": "text/plain"},
+      body: token.id
+    })
+    .then(response => response)
+  }
 }
+
 
 export default AuthService;
 

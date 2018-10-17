@@ -13,7 +13,7 @@ module.exports = (io) => {
             console.log('joining room', room);
             socket.join(room)
             socket.emit('conversation private post',{message:"Holafromserverrr", timestamp: Date.now()})
-            Deal.findById(room, {'conversation':1, '_id':0})
+            Deal.findById(room, {'conversation':1, '_id':0}, {'limit': 10})
             .then(resp => {socket.emit('output', resp)})
         })
         

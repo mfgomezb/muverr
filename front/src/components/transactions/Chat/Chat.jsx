@@ -2,7 +2,7 @@ import React from 'react';
 import io from 'socket.io-client';
 import './chat.css';
 import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper';
 
 
 
@@ -19,10 +19,11 @@ export class Chat extends React.Component{
             icon: 'none',
             variant: 'default',
         }
+
         this.match = props.match
         this.props = props
         this.room = this.match.params.transactionId
-        
+
     }
 
     componentDidMount(){
@@ -38,8 +39,7 @@ export class Chat extends React.Component{
         this.socket.on('conversation private post', (msg)=> {
             console.log(msg)
             this.receiveMessage(msg);
-        });
-
+        });   
     }
 
     receiveMessage(msg){
@@ -73,24 +73,26 @@ export class Chat extends React.Component{
     render(){
         let {messages, input} = this.state;
         return (
-
-            <div className="chat-window" style={{border:'1px solid green', padding:'10px'}} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}>
-                <div className="msg">
-                    {messages.map( (e,i) => 
-                    <div className={(e.userId === this.props.userInSession._id) ? "msg me" : "msg server"} key={i}>
-                        <Chip
-                        label={e.message}
-                        color={(e.userId === this.props.userInSession._id) ? "primary" : "default"}
-                        avatar={this.state.avatarToPlayground}
-                        icon={this.state.iconToPlayground}
-                        variant={this.state.variant}
-                        />
-                    </div> 
-                    )}
-                </div>
-                
-                <input value={input} onChange={e => this.setState({input:e.currentTarget.value})}/>
+            <div className='chat-holder'>
+                <Paper className="chat-window"  >
+                    <div className="msg">
+                        {messages.map( (e,i) => 
+                        <div className={(e.userId === this.props.userInSession._id) ? "msg me" : "msg server"} key={i}>
+                            <Chip
+                            label={e.message}
+                            color={(e.userId === this.props.userInSession._id) ? "primary" : "default"}
+                            avatar={this.state.avatarToPlayground}
+                            icon={this.state.iconToPlayground}
+                            variant={this.state.variant}
+                            />
+                        </div> 
+                        )}
+                    </div>      
+                </Paper>
+                <input value={input} onChange={e => this.setState({input:e.currentTarget.value})} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}/>
             </div>
+            
+
             )
     }
 }
