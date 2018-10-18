@@ -1,4 +1,5 @@
 // auth/auth-service.js
+require('dotenv').config();
 import axios from 'axios';
 
 class AuthService {
