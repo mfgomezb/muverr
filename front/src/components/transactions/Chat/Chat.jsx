@@ -29,7 +29,7 @@ export class Chat extends React.Component{
 
     componentDidMount(){
 
-        this.socket = io('localhost:3010' ); //  + this.match.params.transactionId
+        this.socket = io(`${process.env.REACT_APP_API_URL}` ); //  + this.match.params.transactionId
 
         this.socket.emit('subscribe', this.room)
         

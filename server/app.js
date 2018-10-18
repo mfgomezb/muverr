@@ -89,6 +89,9 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', genericCrud(require('./models/User')));
 app.use('/api/transactions', genericCrud(require('./models/Deal')));
 
+app.use((req, res, next) => {
+   res.sendFile(__dirname + "/public/index.html");
+  });
 
 
 module.exports = app;

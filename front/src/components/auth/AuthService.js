@@ -45,7 +45,7 @@ class AuthService {
 
   payment = (token) => {
     console.log(token)
-    return fetch('http://localhost:3010/api/auth/charge', {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/auth/charge`, {
       method: "POST",
       headers: {"Content-Type": "text/plain"},
       body: token.id
