@@ -6,7 +6,7 @@ require('dotenv').config();
 class ComponentService {
   constructor() {
     this.service = axios.create({
-      baseURL: `${process.env.REACT_APP_API_URL}/user`,
+      baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
       withCredentials: true
     });
   }

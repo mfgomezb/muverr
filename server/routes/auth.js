@@ -27,7 +27,7 @@ const login = (req, user) => {
 router.post('/signup', uploadCloud.single('photo'), (req, res, next) => {
   const {username, password, email, country, city, street, area_code} = req.body;
   console.log('username', username)
-  console.log('password', password)
+  console.log('password', email)
 
 
 

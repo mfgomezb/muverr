@@ -1,6 +1,6 @@
 // auth/auth-service.js
-require('dotenv').config();
 import axios from 'axios';
+require('dotenv').config();
 
 class AuthService {
   constructor() {
