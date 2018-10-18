@@ -21,7 +21,6 @@ class AuthService {
     formData.append('street', street)
     formData.append('area_code', area_code)
     formData.append('photo', photo)
-    console.log(formData.get('photo'))
     return this.service.post('/signup', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

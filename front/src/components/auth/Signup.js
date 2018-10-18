@@ -28,7 +28,7 @@ class Signup extends Component {
     const street = this.state.street;
     const area_code = this.state.area_code;
     const photo = this.state.photo;
-    console.log(photo);
+  
     this.service.signup(username, password, email, country, city, street, area_code, photo)
     .then( response => {
         this.setState({

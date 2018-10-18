@@ -28,7 +28,7 @@ router.post('/signup', uploadCloud.single('photo'), (req, res, next) => {
   const {username, password, email, country, city, street, area_code} = req.body;
   console.log('username', username)
   console.log('password', email)
-
+  photo = req.file ? req.file.url : null;
 
 
   // Check for non empty user or password
