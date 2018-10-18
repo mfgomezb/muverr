@@ -1,0 +1,124 @@
+.home-back {
+    width: 100%;
+    height: 900px;
+    margin-top: 0px;
+    background-image: url("https://res.cloudinary.com/dps7gskia/image/upload/v1539863065/bigstock-149256500.jpg");
+}
+
+.send {
+    margin-top: 300px;
+    margin-left: 300px;
+    background-color: white;
+    width: 20%;
+    height: 75px;
+}
+
+.receive {
+    margin-top: 500px;
+    margin-left: 700px; 
+    background-color: white;
+    width: 20%;
+    height: 75px;
+ }
+ 
+
+.link-style {
+    text-decoration: none ;
+    color: Black;
+}
+
+.link-style:focus{
+    text-decoration: none;
+}
+
+.link-style:visited{
+    text-decoration: none;
+}
+
+.link-style:hover{
+    text-decoration: none;
+}
+
+.link-style:link{
+    text-decoration: none;
+}
+
+.link-style:active{
+    text-decoration: none;
+}
+.chat-holder{
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 20px;
+    .chat-window{
+        max-height: 600px;
+        overflow: auto;
+        width: 100%;
+        .msg{
+            padding: 5px;
+            margin:5px;
+            display:block;
+        }
+        .msg.me{
+            text-align: right;
+        }
+        .msg.server{
+            text-align: left;
+        }
+        .textField {
+            width: 100%,
+        }
+    }
+}
+
+$profile-width: 95%;
+
+.profile-container{
+    width: $profile-width;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: flex;
+
+    .personal-details-container {
+        display: inline-block;
+        width: $profile-width/3;
+        transition-duration: 0.3s;
+        height: 800px;
+        .card-style {
+            min-height: 800px;
+        }
+    }
+    .tx-details-holder {
+        width: $profile-width/3*2;
+        display: flex;
+        
+        .tx-card {
+            margin: 0;
+        }
+    }
+
+
+
+    
+}
+   
+
+
+
+
+
+
+
+.msg.me .wrap{
+    background:green;
+    color:white;
+}
+.msg.server .wrap{
+    background:grey;
+    color:white;
+}
+.msg .wrap{
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+}
