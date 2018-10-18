@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const passport = require('passport');
 const stripe = require("stripe")("sk_test_seNXKK0gMYPsVeGFx0FQU6Jb");
+const uploadCloud = require('../config/cloudinary.js');
+
 
 const login = (req, user) => {
   return new Promise((resolve,reject) => {
@@ -21,14 +23,13 @@ const login = (req, user) => {
 }
 
 
-
 // SIGNUP
-router.post('/signup', (req, res, next) => {
-
+router.post('/signup', uploadCloud.single('photo'), (req, res, next) => {
   const {username, password, email, country, city, street, area_code} = req.body;
-
   console.log('username', username)
   console.log('password', password)
+
+
 
   // Check for non empty user or password
   if (!username || !password || !email){
@@ -50,8 +51,8 @@ router.post('/signup', (req, res, next) => {
       country,
       city,
       street,
-      area_code
-      
+      area_code,
+      photo
     }).save();
   })
   .then( savedUser => login(req, savedUser)) // Login the user using passport

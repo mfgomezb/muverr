@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import '../../stylesheets/style.scss'
 
 
 class Home extends Component {
@@ -6,8 +7,9 @@ class Home extends Component {
     const {classes} = this.props
     console.log(classes)
     return (
-        <div>
-            <h1>This is the Home Page Component</h1>
+        <div className='home-back'>
+            <div className='send'>Send money to your family</div>
+            <div className='receive'>Protect your work and savings</div>
         </div>
     )
   }

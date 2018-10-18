@@ -10,6 +10,8 @@ const userSchema = new Schema({
   city: String,
   street: String,
   area_code: Number,
+  productDescription: String,
+  photo: String,
   operations: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Deal'}
   ]

@@ -1,8 +1,9 @@
 import React from 'react';
 import io from 'socket.io-client';
-import './chat.css';
+import '../../../stylesheets/style.scss';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -89,7 +90,15 @@ export class Chat extends React.Component{
                         )}
                     </div>      
                 </Paper>
-                <input value={input} onChange={e => this.setState({input:e.currentTarget.value})} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}/>
+                <TextField
+                    id="standard-bare"
+                    className='textField'
+                    fullWidth
+                    placeholder='Type your message here'
+                    value={input}
+                    margin="normal"
+                    onChange={e => this.setState({input:e.currentTarget.value})} onKeyDown={e => e.keyCode==13 ? this.submitChat():null}
+                />
             </div>
             
 

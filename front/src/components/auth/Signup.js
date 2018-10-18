@@ -12,7 +12,8 @@ class Signup extends Component {
       country: "",
       city: "",
       street: "",
-      area_code: ""
+      area_code: "",
+      photo: null
       }
     this.service = new AuthService();
   }
@@ -26,8 +27,9 @@ class Signup extends Component {
     const city = this.state.city;
     const street = this.state.street;
     const area_code = this.state.area_code;
-
-    this.service.signup(username, password, email, country, city, street, area_code)
+    const photo = this.state.photo;
+    console.log(photo);
+    this.service.signup(username, password, email, country, city, street, area_code, photo)
     .then( response => {
         this.setState({
           username: "",
@@ -36,8 +38,8 @@ class Signup extends Component {
           country: "",
           city: "",
           street: "",
-          area_code: ""
-
+          area_code: "",
+          photo: ""
         });
         this.props.getUser(response.user)
     })
@@ -46,15 +48,20 @@ class Signup extends Component {
 
   handleChange = (event) => {  
     const {name, value} = event.target;
-    this.setState({[name]: value});
+
+    if (event.target.name === 'photo'){
+      const photo = event.target.files[0];
+      this.setState({"photo":photo})
+    } else {
+      this.setState({[name]: value});
+    }
   }
-      
+
 
   render() {
     return(
       <div>
         <h3>Welcome!, create your account next:</h3>
-
         <form onSubmit={this.handleFormSubmit}>
           <fieldset>
             <label>Username:</label>
@@ -84,7 +91,11 @@ class Signup extends Component {
             <label>Area code:</label>
             <input type="text" name="area_code" onChange={ e => this.handleChange(e)}/>
           </fieldset>
-          
+          <fieldset>
+              <label className="btn btn-primary">
+                  <input type="file" name='photo' className="" placeholder='Product Photo' onChange={(e) => this.handleChange(e)} />
+              </label>
+          </fieldset>
           <input type="submit" value="Sign up" />
         </form>
 

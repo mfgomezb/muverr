@@ -10,16 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom'
+import '../../stylesheets/style.scss'
+
 
 const styles = {
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
+
   title: {
     fontSize: 14,
   },
@@ -105,7 +100,8 @@ class Profile extends Component {
         let id = e._id
 
         return (
-          <Card className={classes.card}>
+          <div className='tx-card'>
+          <Card className='tx-card-style'>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {a}
@@ -127,21 +123,22 @@ class Profile extends Component {
               </Typography>
             </CardContent>
             <CardActions>
-              {(e.classification !== "OPEN") ? <Button size="medium"><Link to={"/transactionChat/" + id}> Chat </Link></Button> : null}
-              {(a === 'buy' && e.classification === 'IN PROCESS') ? <Button size="medium"><Link to={"/checkout/" + id}> Pay </Link></Button> : null}
-              {((a === 'sell' || a === 'buy') && e.classification === 'IN PROCESS') ? <Button size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, id)}>Cancel Order</Button> : null}
-              {(a === 'buy' && e.classification === 'PAID' ) ? <Button size="medium">Waiting for confirmation</Button> : null}
-              {(a === 'sell' && e.classification === 'PAID') ? <Button size="medium" onClick={(e) => this.confirmPayment(id)}>Confirm Payment</Button> : null}
-              {((a === 'sell' || a === 'buy') && e.classification === 'CONFIRMED') ?  <Button size="medium" onClick={(e) => this.ratePayment(e)}> Rate </Button> : null}
+              {(e.classification !== "OPEN") ? <Button color="primary" size="medium"><Link className='link-style' to={"/transactionChat/" + id}> Chat </Link></Button> : null}
+              {(a === 'buy' && e.classification === 'IN PROCESS') ? <Button color="primary" size="medium"><Link className='link-style' to={"/checkout/" + id}> Pay </Link></Button> : null}
+              {((a === 'sell' || a === 'buy') && e.classification === 'IN PROCESS') ? <Button color="primary" size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, id)}>Cancel Order</Button> : null}
+              {(a === 'buy' && e.classification === 'PAID' ) ? <Button color="primary" size="medium">Waiting for confirmation</Button> : null}
+              {(a === 'sell' && e.classification === 'PAID') ? <Button color="primary" size="medium" onClick={(e) => this.confirmPayment(id)}>Confirm Payment</Button> : null}
+              {((a === 'sell' || a === 'buy') && e.classification === 'CONFIRMED') ?  <Button color="primary" size="medium" onClick={(e) => this.ratePayment(e)}> Rate </Button> : null}
             </CardActions>
           </Card>
+          </div>
         )
       }
 
       return (
-        <div>
-          <div>
-          <Card className={classes.card}>
+        <div className='profile-container'>
+          <div className='personal-details-container'>
+          <Card className='card-style'>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
               {details.name}
@@ -164,7 +161,7 @@ class Profile extends Component {
             </CardActions>
           </Card>
           </div>      
-          <div>
+          <div className='tx-details-holder'>
            { operation ? operation.map((e, i) => { 
                     if (e.seller._id === this.props.userInSession._id) {
                       return cardHolder(e, 'sell')
@@ -173,8 +170,9 @@ class Profile extends Component {
                     }
                     }) : <p>Loading...</p> 
                     }
-          </div>  
+          </div>
         </div>
+
       )
     }
   }

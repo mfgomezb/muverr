@@ -9,8 +9,22 @@ class AuthService {
     });
   }
 
-  signup = (username, password, email, country, city, street, area_code) => {
-    return this.service.post('/signup', {username, password, email, country, city, street, area_code})
+  signup = (username, password, email, country, city, street, area_code, photo) => {
+    console.log(photo)
+    const formData = new FormData();
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('email', email)
+    formData.append('country', country)
+    formData.append('city', city)
+    formData.append('street', street)
+    formData.append('area_code', area_code)
+    formData.append('photo', photo)
+    console.log(formData.get('photo'))
+    return this.service.post('/signup', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }})
     .then(response => response.data)
   }
 

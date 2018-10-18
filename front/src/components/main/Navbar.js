@@ -1,8 +1,26 @@
-// navbar/Navbar.js
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AuthService from '../auth/AuthService';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
 
 class Navbar extends Component {
   constructor(props) {
@@ -19,32 +37,48 @@ class Navbar extends Component {
     this.props.logout()
   }
 
+
   render() {
+
+    const { classes } = this.props;
+
     if (this.state.loggedInUser) {
       return (
-        <nav className="nav-style">
-          <ul>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/transactions'>Market</Link></li>
-            <li><Link to='/sendmoney'>Send Money</Link></li>
-            <li><Link to='/profile'>Profile</Link></li>
-            <li><Link to='/' onClick={e => this.handleLogout(e)}>Logout</Link></li>
-          </ul>
-        </nav>
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Button color="inherit"><Link to='/'>Home</Link></Button>
+              <Button color="inherit"><Link to='/transactions'>Market</Link></Button>
+              <Button color="inherit"><Link to='/sendmoney'>Send Money</Link></Button>
+              <Button color="inherit"><Link to='/profile'>Profile</Link></Button>
+              <Button color="inherit"><Link to='/' onClick={e => this.handleLogout(e)}>Logout</Link></Button>
+            </Toolbar>
+          </AppBar>
+        </div>
       )
     } else {
       return (
         <div>
-          <nav className="nav-style">
-            <ul>
-            <li><Link to='/signup'>Signup</Link></li>
-            <li><Link to='/login'>Login</Link></li>
-            </ul>
-          </nav>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Button color="inherit"><Link to='/signup'>Signup</Link></Button>
+              <Button color="inherit"><Link to='/login'>Login</Link></Button>
+            </Toolbar>
+          </AppBar>
         </div>
       )
     }
   }
 }
 
-export default Navbar;
+Navbar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Navbar);
