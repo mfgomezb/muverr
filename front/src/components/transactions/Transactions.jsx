@@ -16,6 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import moment from 'moment'
+
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -43,12 +45,13 @@ function getSorting(order, orderBy) {
 
 
 const rows = [
-    { id: 'details', numeric: false, disablePadding: false, label: 'Details' },
+  { id: 'details', numeric: false, disablePadding: false, label: 'Details' },
+  { id: 'seller', numeric: false, disablePadding: false, label: 'Seller' },
+  { id: 'rating', numeric: false, disablePadding: false, label: 'Rating' },
     { id: 'rate', numeric: true, disablePadding: false, label: 'Rate' },
     { id: 'amount', numeric: true, disablePadding: false, label: 'Amount' },
     { id: 'bolivares', numeric: true, disablePadding: false, label: 'Bolivares' },
     { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
-    { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -154,8 +157,9 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
   root: {
+    marginTop: '5%',
+    marginLeft: '9%',
     width: '80%',
-    marginTop: theme.spacing.unit * 3,
     padding: 20,
   },
   table: {
@@ -265,29 +269,27 @@ class Transactions extends React.Component {
               {stableSort(data, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  
+                  if (n.classification === 'OPEN' && n.seller._id !== this.props.userInSession._id) {
                   return (
                     <TableRow
                       hover
-                      
-                      
-                      
                       tabIndex={-1}
                       key={n._id}
-                      
                     >
-                      
                       <TableCell component="th" scope="row" padding="none">
                       <Link to={"/transaction/" + n._id}> GO </Link>
                       </TableCell>
+                      <TableCell numeric>{n.seller.username}</TableCell>
+                      <TableCell numeric>{n.seller.rating}</TableCell>
                       <TableCell numeric>{n.amount}</TableCell>
                       <TableCell numeric>{n.rate}</TableCell>
                       <TableCell numeric>{n.bolivares}</TableCell>
-                      <TableCell>{n.created_at}</TableCell>
-                      <TableCell string>{n.classification}</TableCell>
+                      <TableCell>{moment(n.created_at).format('MM/DD/YYYY')}</TableCell>
                     </TableRow>
                   );
+                }
                 })}
+              
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -320,67 +322,3 @@ Transactions.propTypes = {
 };
 
 export default withStyles(styles)(Transactions);
-
-
-
-
-
-// import React, {Component} from 'react'
-// import ComponentService from '../TransactionService'
-// import TransactionCard from './TransactionCard'
-// import { Link } from 'react-router-dom';
-// import _ from 'lodash';
-
-
-// class Transactions extends Component {
-//     constructor(){
-//         super()
-//         this.state = {
-//             transactions: []
-//         }
-
-//         this.service = new ComponentService()
-//     }
-
-//     componentDidMount() {
-//         this.service.openTransactions().then((data) => {
-//             if (data.error) {
-//             } else {
-//             this.setState({transactions: data})
-//             }
-//         })
-//     }
-     
-//     handleClick = (event, name) => {
-
-//         console.log(event)
-//     }
-
-//     render() {
-    
-//     console.log(this.state.transactions)
-//     return (
-//             <div>
-//                 <table>
-//                     <tbody>
-//                     <tr>
-//                         <th>Details</th>
-//                         <th name='amount' onClick={(e) => this.handleClick(e)}>Amount</th>
-//                         <th name='rate' onClick={(e) => this.handleClick(e)}>Rate</th>
-//                         <th name='bolivares' onClick={(e) => this.handleClick(e)}>Bolivares</th>
-//                         <th name='created_at' onClick={(e) => this.handleClick(e)}>Created</th>
-//                         <th name='classification' onClick={(e) => this.handleClick(e)}>Status</th>
-//                     </tr>
-//                     {
-//                         this.state.transactions.map( (e, i) => {
-//                         return <TransactionCard key={i} {...e}></TransactionCard>
-//                         })
-//                     } 
-//                     </tbody>
-//                 </table>
-//             </div>
-//         )
-//     }
-//     }
-
-// export default Transactions

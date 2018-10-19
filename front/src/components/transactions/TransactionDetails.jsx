@@ -9,7 +9,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {Redirect} from 'react-router-dom' 
+import {Redirect} from 'react-router-dom';
+import '../../stylesheets/style.scss';
 
 const styles = {
   card: {

@@ -11,7 +11,7 @@ class ComponentService {
   }
 
   openTransactions = () => {
-    return this.service.get('/', )
+    return this.service.get('/open', )
       .then(response => response.data)
   }
 

@@ -6,8 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+
 
 const styles = {
   root: {
@@ -40,21 +39,18 @@ class Navbar extends Component {
 
   render() {
 
-    const { classes } = this.props;
+
 
     if (this.state.loggedInUser) {
       return (
-        <div className={classes.root}>
-          <AppBar position="static">
+        <div >
+          <AppBar className='navbar' position="static">
             <Toolbar>
-              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                <MenuIcon />
-              </IconButton>
-              <Button color="inherit"><Link to='/'>Home</Link></Button>
-              <Button color="inherit"><Link to='/transactions'>Market</Link></Button>
-              <Button color="inherit"><Link to='/sendmoney'>Send Money</Link></Button>
-              <Button color="inherit"><Link to='/profile'>Profile</Link></Button>
-              <Button color="inherit"><Link to='/' onClick={e => this.handleLogout(e)}>Logout</Link></Button>
+              <Button className='navbar'><Link className='link-style link-color' to='/'><b>MUVERR</b></Link></Button>
+              <Button><Link className='link-style link-color' to='/transactions'>Market</Link></Button>
+              <Button><Link className='link-style link-color' to='/sendmoney'>Send Money</Link></Button>
+              <Button><Link className='link-style link-color' to='/profile'>Dashboard</Link></Button>
+              <Button><Link className='link-style link-color' to='/' onClick={e => this.handleLogout(e)}>Logout</Link></Button>
             </Toolbar>
           </AppBar>
         </div>
@@ -64,11 +60,9 @@ class Navbar extends Component {
         <div>
           <AppBar position="static">
             <Toolbar>
-              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                <MenuIcon />
-              </IconButton>
-              <Button color="inherit"><Link to='/signup'>Signup</Link></Button>
-              <Button color="inherit"><Link to='/login'>Login</Link></Button>
+              <Button className='navbar'><Link className='link-style link-color' to='/'><b>MUVERR</b></Link></Button>
+              <Button><Link className='link-style link-color' to='/signup'>Signup</Link></Button>
+              <Button><Link className='link-style link-color' to='/login'>Login</Link></Button>
             </Toolbar>
           </AppBar>
         </div>

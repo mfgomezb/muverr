@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const Currency = require('./models/Currency')
 
 let scrape = async () => {
     const browser = await puppeteer.launch({headless: true});
@@ -7,12 +8,12 @@ let scrape = async () => {
 
         await page.goto('https://dolartoday.com/');
         await page.waitFor(1*1000);
-        const result = await page.evaluate(() => {
+        const dolar = await page.evaluate(() => {
             
             let elements = document.getElementById('result').value;
             element = elements.substring(elements.indexOf(" "),).replace(',','.')
             console.log(element)
-            return element
+            return element.trim()
 
         });
 
@@ -24,7 +25,7 @@ let scrape = async () => {
     //     const result = await page.evaluate(() => {
 
     //         let elements = document.querySelector('.ProfileHeaderCard-bio').innerText;
-            element = elements.substring(a.indexOf("") , a.indexOf(" BsS")).replace(',', '.').split(' ')[1]
+            // element = elements.substring(a.indexOf("") , a.indexOf(" BsS")).replace(',', '.').split(' ')[1]
     //         console.log(element)
     //         return element
 
@@ -34,13 +35,17 @@ let scrape = async () => {
 
     // }
 
-    // DT = getDolarPriceDolarToday(page)
-    // BTC = getDolarPriceTwitterBTCPlay(page)
+   let quote = {
+       price: null,
+   } 
+   quote.price = dolar;
 
-    browser.close();// Return the data
-    return result ;
+    browser.close()
+    return quote
 };
 
 scrape().then((value) => {
-    console.log(value); // Success!
+    console.log(value)
+    d = new Currency({value})
+    d.save()
 });

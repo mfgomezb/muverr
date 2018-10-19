@@ -2,30 +2,30 @@ import React, {Component} from 'react'
 import ComponentService from '../TransactionService'
 import classNames from 'classnames';
 import PropTypes from "prop-types";
-import {Link} from 'react-router-dom'
 import { withStyles } from "@material-ui/core/styles";
-import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Redirect} from 'react-router-dom'
 import _ from 'lodash'
+import Paper from '@material-ui/core/Paper'
+import '../../stylesheets/style.scss';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 
 
 const styles = theme => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    margin: {
-      margin: theme.spacing.unit,
-    },
+
     textField: {
-      flexBasis: 200,
+    width: '92%',
+      flexBasis: 200, 
+      margin: 10,
     },
     inputLabelShrink: {
         shrink: true
+    },
+    numberInput: {
+        width: '45%'
     },
     button: {
         margin: theme.spacing.unit,
@@ -48,9 +48,9 @@ class CreateTransaction extends Component {
             currency: 'EUR',
             bolivares: 0,
             beneficiaryName: "",
-            beneficiaryBank:0,
-            beneficiaryNationalId: 0,
-            beneficiaryBankAccount: 0,
+            beneficiaryBank:"",
+            beneficiaryNationalId: "",
+            beneficiaryBankAccount: "",
             }};
         this.service = new ComponentService()
     }
@@ -97,12 +97,51 @@ class CreateTransaction extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    // handleChange = (event) => {
+    //     const {name, value} = event.target;
+    //     const _deal = {...this.state.deal};
+    //     _deal[name] = value;
+    //     this.setState({deal: _deal})
+    // }
+
     handleChange = (event) => {
         const {name, value} = event.target;
         const _deal = {...this.state.deal};
         _deal[name] = value;
-        this.setState({deal: _deal})
+        this.setState({deal:  _deal}, () => {
+          if(this.state.deal.amount && this.state.deal.rate){
+            this.calcTotal();
+          }
+        });
+      }
+
+    calcTotal(){
+    const bolivares = this.state.deal.amount * this.state.deal.rate
+    console.log(bolivares)
+    const _deal = {...this.state.deal};
+    _deal.bolivares = bolivares;
+    this.setState({deal: _deal})
     }
+
+    handleCurrencyChange = name => event => {
+        console.log(event.target.value,);
+        
+        this.setState({
+          [name]: event.target.value,
+          
+        });
+      };
+
+    currencies = [
+        {
+          value: 'USD',
+          label: '$',
+        },
+        {
+          value: 'EUR',
+          label: '€',
+        }
+    ]
 
     render() {
 
@@ -112,28 +151,44 @@ class CreateTransaction extends Component {
           }
 
         return (
-        <div>
+        <Paper className="transaction-holder">
+            <h1>Enter transactions details:</h1>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={this.handleFormSubmit}>
                 {_.map(this.state.deal, (val, key) => { 
-                    return <TextField
-                    key={key}
-                    id="outlined-simple-start-adornment"
-                    className={classNames(classes.margin, classes.textField)}
-                    variant="outlined"
-                    label={(this.capitalizeFirstLetter(key)).replace( /([A-Z])/g, " $1" )}
-                    name={key}
-                    placeholder={val}
-                    onChange = {(e) => this.handleChange(e)}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    />
+                    if (key === 'amount' || key === 'rate' || key === 'bolivares' || key === 'currency') {
+                        return <TextField
+                        key={key}
+                        className={classNames(classes.margin, classes.textField, classes.numberInput)}
+                        variant="outlined"
+                        label={(this.capitalizeFirstLetter(key)).replace( /([A-Z])/g, " $1" )}
+                        name={key}
+                        placeholder={val}
+                        onChange = {(e) => this.handleChange(e)}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
+                    } else {
+                        return <TextField
+                        key={key}
+                        className={classNames(classes.margin, classes.textField)}
+                        variant="outlined"
+                        label={(this.capitalizeFirstLetter(key)).replace( /([A-Z])/g, " $1" )}
+                        name={key}
+                        placeholder={val}
+                        onChange = {(e) => this.handleChange(e)}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
+
+                    }
                  })}
                 <Button type='submit' variant="outlined" className={classes.button}>
                     Send Money
                 </Button>
             </form>
-        </div>
+        </Paper>
 
         )
     }

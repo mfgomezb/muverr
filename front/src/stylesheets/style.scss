@@ -1,8 +1,100 @@
-.home-back {
+.index-content {
+    color:white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    height: 900px;
-    margin-top: 0px;
-    background-image: url("https://res.cloudinary.com/dps7gskia/image/upload/v1539863065/bigstock-149256500.jpg");
+    object-fit: contain;
+    background-image: url("https://res.cloudinary.com/dps7gskia/image/upload/v1539941074/breathtaking-helicopter-shot-of-modern-city-panorama-view-new-york-city-background_ea3_qo-9e__F0000.png");
+    background-size: cover;
+    position: absolute;
+    bottom: 0px;
+    top: 55px;
+    h1{
+        margin-top: 200px;
+        font-size: 40px;
+        text-shadow: 0 0 15px black;
+    }
+    .title1{
+        margin-top: 100px;
+        width: 500px;
+        border-radius: 5px;
+        color: white;
+        font-size: 30px;
+        text-shadow: 0 0 10px black; 
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+    .title2 {
+        width: 500px;
+        color: white;
+        font-size: 30px;
+        text-shadow: 0 0 10px black;
+        border-radius: 5px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.login-form-holder {
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 30%;
+    padding: 30px;
+    .input-holder {
+    margin-top: 30px;
+    }
+    .login-button {
+        margin-top: 30px;
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #637aad), color-stop(1, #5972a7));
+        background:-moz-linear-gradient(top, #637aad 5%, #5972a7 100%);
+        background:-webkit-linear-gradient(top, #637aad 5%, #5972a7 100%);
+        background:-o-linear-gradient(top, #637aad 5%, #5972a7 100%);
+        background:-ms-linear-gradient(top, #637aad 5%, #5972a7 100%);
+        background:linear-gradient(to bottom, #637aad 5%, #5972a7 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#637aad', endColorstr='#5972a7',GradientType=0);
+        background-color:#637aad;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:13px;
+        font-weight:bold;
+        padding:8px 12px;
+        text-decoration:none;
+    }
+    .login-button:hover {
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5972a7), color-stop(1, #637aad));
+        background:-moz-linear-gradient(top, #5972a7 5%, #637aad 100%);
+        background:-webkit-linear-gradient(top, #5972a7 5%, #637aad 100%);
+        background:-o-linear-gradient(top, #5972a7 5%, #637aad 100%);
+        background:-ms-linear-gradient(top, #5972a7 5%, #637aad 100%);
+        background:linear-gradient(to bottom, #5972a7 5%, #637aad 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5972a7', endColorstr='#637aad',GradientType=0);
+        background-color:#5972a7;
+    }
+    .login-button:active {
+        position:relative;
+        top:1px;
+    }
+    
+
+}
+
+.transaction-holder {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 75px;
+    padding: 20px;
+    h1 {
+        margin: 8px;
+        margin-bottom: 15px;
+    }
 }
 
 .send {
@@ -25,6 +117,11 @@
 .link-style {
     text-decoration: none ;
     color: Black;
+}
+
+.link-color {
+    color: white;
+    text-align: middle;
 }
 
 .link-style:focus{
@@ -81,7 +178,7 @@ $profile-width: 95%;
 
     .personal-details-container {
         display: inline-block;
-        width: $profile-width/3;
+        width: $profile-width/4;
         transition-duration: 0.3s;
         height: 800px;
         .card-style {
@@ -89,13 +186,21 @@ $profile-width: 95%;
         }
     }
     .tx-details-holder {
-        width: $profile-width/3*2;
-        display: flex;
+        width: $profile-width/3*4;
         
-        .tx-card {
-            margin: 0;
+        .buyTable {
+            width: $profile-width/3*4;
+        }
+
+        .sellTable {
+            width: $profile-width/3*4;
         }
     }
+
+    .navbar {
+        background-color: black;
+    }
+
 
 
 
@@ -104,7 +209,16 @@ $profile-width: 95%;
    
 
 
-
+.checkout {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    .paymentHolder{
+        margin: 50px;
+    }
+    
+}
 
 
 

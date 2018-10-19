@@ -7,7 +7,8 @@ import TextField from '@material-ui/core/TextField';
 
 
 
-export class Chat extends React.Component{
+
+export  class Chat extends React.Component{
 
     constructor(props){
         super(props)
@@ -34,6 +35,7 @@ export class Chat extends React.Component{
         this.socket.emit('subscribe', this.room)
         
         this.socket.on('output', (data) => {
+            console.log(data)
             this.setState({messages: data.conversation})
         });
 
@@ -101,7 +103,6 @@ export class Chat extends React.Component{
                 />
             </div>
             
-
             )
     }
 }

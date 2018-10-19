@@ -10,6 +10,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import '../../stylesheets/style.scss'
 
 
 
@@ -94,9 +96,11 @@ class CheckoutForm extends Component {
       const {...details} = this.state.transaction;
       
       return (
-        <div className="checkout">
-          <Card className={classes.card}>
-            <CardContent>
+        
+        <Paper className="checkout">
+        
+            <div className='paymentHolder'>
+              <h1>Checkout</h1>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
                 Transaction Details
               </Typography>
@@ -104,7 +108,7 @@ class CheckoutForm extends Component {
                 Seller: {details.seller.name}
               </Typography>
               <Typography className={classes.pos} color="textSecondary">
-                Rating: ...
+                Rating: {details.rating}
               </Typography>
               <Typography component="p">
                 Amount: {details.amount}
@@ -115,27 +119,29 @@ class CheckoutForm extends Component {
               <Typography component="p">
                 Bolivares: {details.bolivares}
               </Typography>
-            </CardContent>
-          </Card>
-            <Typography variant="h6" gutterBottom>
-            Please enter your payment details
-            </Typography>
-            <Grid container spacing={24}>
-              <Grid item xs={12} md={6}>
-                <TextField required id="cardName" label="Name on card" fullWidth />
+              </div>
+            <div className='paymentHolder'>
+              <Typography variant="h6" gutterBottom>
+              Please enter your payment details
+              </Typography>
+              <Grid container spacing={24}>
+                <Grid item xs={12} md={6}>
+                  <TextField required id="cardName" label="Name on card" fullWidth />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField required id="billingAdress" label="Billing Address" fullWidth />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <CardElement fullWidth/>
+                </Grid>
+                <Grid item xs={12}>
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField required id="billingAdress" label="Billing Address" fullWidth />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <CardElement fullWidth/>
-              </Grid>
-              <Grid item xs={12}>
-              </Grid>
-            </Grid>
+            <button onClick={this.submit}>Complete payment</button>
+            </div>
           
-          <button onClick={this.submit}>Complete payment</button>
-        </div>
+        </Paper>
+        
       );
     } else {
       return ''

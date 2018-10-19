@@ -4,12 +4,11 @@ import '../../stylesheets/style.scss'
 
 class Home extends Component {
   render() {
-    const {classes} = this.props
-    console.log(classes)
     return (
-        <div className='home-back'>
-            <div className='send'>Send money to your family</div>
-            <div className='receive'>Protect your work and savings</div>
+        <div className='index-content'>
+            <h1>MUVERR</h1>
+            <div className='title1'><b>Send money to your family</b></div>
+            <div className='title2'><b>Protect your work and savings</b></div>
         </div>
     )
   }
@@ -17,3 +16,5 @@ class Home extends Component {
 
 
 export default Home
+
+

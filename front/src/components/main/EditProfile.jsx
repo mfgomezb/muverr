@@ -7,20 +7,16 @@ import { withStyles } from "@material-ui/core/styles";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import {Redirect} from 'react-router-dom'
+import Paper from '@material-ui/core/Paper'
 
 
 
 
 const styles = theme => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    margin: {
-      margin: theme.spacing.unit,
-    },
     textField: {
-      flexBasis: 200,
+        width: '92%',
+        flexBasis: 200, 
+        margin: 10,
     },
     inputLabelShrink: {
         shrink: true
@@ -100,6 +96,7 @@ class EditProfile extends Component {
         
         return (
         <div>
+            <Paper className="transaction-holder">
             <form className={classes.root} noValidate autoComplete="off" onSubmit={this.handleFormSubmit}>
                 <TextField
                     id="outlined-simple-start-adornment"
@@ -192,6 +189,7 @@ class EditProfile extends Component {
                 />
                 <input type="submit" value="Edit Profile" />
             </form>
+            </Paper>
         </div>
 
         )

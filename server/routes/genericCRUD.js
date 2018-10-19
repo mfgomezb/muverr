@@ -21,6 +21,14 @@ const simpleCrud = (Model, extensionFn) => {
             .catch(e => next(e))
     })
 
+    router.get('/open',(req,res,next) => {
+        Model.find()
+            .populate("seller")
+            .sort('-updated_at')
+            .then( objList => res.status(200).json(objList))
+            .catch(e => next(e))
+    })
+
     router.get('/transaction/:id', (req, res, next) => {
         const {id} = req.params
         Model.findOne({'_id': id}).populate('seller', 'name')
