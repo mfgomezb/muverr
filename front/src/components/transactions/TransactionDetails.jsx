@@ -14,6 +14,8 @@ import '../../stylesheets/style.scss';
 
 const styles = {
   card: {
+    margin: '0 auto',
+    marginTop: 50,
     minWidth: 275,
     width: '20%'
   },
@@ -76,6 +78,7 @@ class TransactionDetails extends Component {
     console.log(this.props)
     const {classes} = this.props
     if (this.state.transaction._id) {
+      console.log(this.state.transaction)
       const {...details} = this.state.transaction;
     if (this.state.redirectToProfile) {
       return (<Redirect to={'/profile'}/>)
@@ -105,6 +108,15 @@ class TransactionDetails extends Component {
               <Typography component="p">
                 Classification: {details.classification}
               </Typography>
+              <Typography component="p">
+                Beneficiary Bank: {details.beneficiaryBank}
+              </Typography>
+              <Typography component="p">
+                Beneficiary Name: {details.beneficiaryName}
+              </Typography>
+              <Typography component="p">
+                Beneficiary National Id: {details.beneficiaryNationalId}
+              </Typography>
             </CardContent>
             <CardActions>
               <Button size="medium" onClick={(e) => this.changeStatusToInProcess(e) }>Buy</Button>
@@ -114,6 +126,7 @@ class TransactionDetails extends Component {
     } else return <div />;
   }
 }
+
 
 TransactionDetails.propTypes = {
   classes: PropTypes.object.isRequired,

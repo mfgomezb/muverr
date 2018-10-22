@@ -61,6 +61,7 @@ class Profile extends Component {
       };
 
       cancelBuyOrder = (buyerId, operId) => {
+        console.log(buyerId, operId)
         this.transactionService.cancelBuyOrder({buyerId, operId})
         .then( () => {
           this.getUser(this.props.userInSession._id);
@@ -142,11 +143,11 @@ class Profile extends Component {
                       <TableCell numeric>{buy.bolivares}</TableCell>
                       <TableCell numeric>{buy.beneficiaryBank}</TableCell>
                       <TableCell numeric>{buy.seller.username}</TableCell>
-                      <TableCell>{(buy.classification !== "OPEN") ? <Button color="primary" size="medium" onClick={(e) => this.chat(buy._id)}><Link className='link-style' to={"/transactionChat/" + buy._id}> Chat </Link></Button> : null}</TableCell>
+                      <TableCell>{(buy.classification !== "OPEN") ? <Button color="primary" size="medium"><Link className='link-style' to={"/transactionChat/" + buy._id}> Chat </Link></Button> : null}</TableCell>
                       <TableCell>{(buy.classification === 'IN PROCESS') ? <Button color="primary" size="medium"><Link className='link-style' to={"/checkout/" + buy._id}> Pay </Link></Button> : null}</TableCell>
                       <TableCell>{(buy.classification === 'PAID') ? <Button color="primary" size="medium"> Waiting for Confirmation </Button> : null}</TableCell>
                       <TableCell>{(buy.classification === 'CONFIRMED') ?  <Button color="primary" size="medium" onClick={(e) => this.ratePayment(e)}> Rate </Button> : null}</TableCell>
-                      <TableCell>{((buy.classification === 'IN PROCESS') || (buy.classification === 'OPEN')) ? <Button color="primary" size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, buy.id)}>Cancel Order</Button> : null}</TableCell>
+                      <TableCell>{((buy.classification === 'IN PROCESS') || (buy.classification === 'OPEN')) ? <Button color="primary" size="medium" onClick={(e) => this.cancelBuyOrder(this.props.userInSession._id, buy._id)}>Cancel Order</Button> : null}</TableCell>
 
                     </TableRow>
                   );
@@ -186,10 +187,10 @@ class Profile extends Component {
                       <TableCell numeric>{sell.bolivares}</TableCell>
                       <TableCell numeric>{sell.beneficiaryBank}</TableCell>
                       <TableCell numeric>{sell.seller.username}</TableCell>
-                      <TableCell>{(sell.classification !== "OPEN") ? <Button color="primary" size="medium" onClick={(e) => this.chat(sell._id)}><Link className='link-style' to={"/transactionChat/" + sell._id}> Chat </Link></Button> : null}</TableCell>
+                      <TableCell>{(sell.classification !== "OPEN") ? <Button color="primary" size="medium"><Link className='link-style' to={"/transactionChat/" + sell._id}> Chat </Link></Button> : null}</TableCell>
                       <TableCell>{(sell.classification === 'PAID') ? <Button color="primary" size="medium" onClick={(e) => this.confirmPayment(sell._id)}> Confirm Payment </Button> : null}</TableCell>
                       <TableCell>{(sell.classification === 'CONFIRMED') ?  <Button color="primary" size="medium" onClick={(e) => this.ratePayment(e)}> Rate </Button> : null}</TableCell>
-                      <TableCell>{((sell.classification === 'IN PROCESS') || (sell.classification === 'OPEN')) ? <Button color="primary" size="medium" onClick={(e) => this.cancelSellOrder(this.props.userInSession._id, sell.id)}>Cancel Order</Button> : null}</TableCell>
+                      <TableCell>{((sell.classification === 'IN PROCESS') || (sell.classification === 'OPEN')) ? <Button color="primary" size="medium" onClick={(e) => this.cancelSellOrder(this.props.userInSession._id, sell._id)}>Cancel Order</Button> : null}</TableCell>
                     </TableRow>
                   );
                 })}
